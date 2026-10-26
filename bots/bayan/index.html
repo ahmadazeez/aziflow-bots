@@ -15,10 +15,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../shared/azi.css?v=4">
+<link rel="stylesheet" href="../../shared/azi.css?v=5">
 <style>
   /* خاص بهذا البوت */
-  a.dl { display:inline-block; margin-top:14px; background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; padding:12px 20px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 4px 16px rgba(16,185,129,0.3); }
 </style>
 </head>
 <body>
@@ -2411,7 +2410,7 @@ var qrcode = function() {
 }(qrcode);
 
 </script>
-<script src="../../shared/azi.js"></script>
+<script src="../../shared/azi.js?v=5"></script>
 <script>/* app.js — منطق بوت تعديل التذكرة
  * يحمّل القالب المضمّن، يرسم القيم الجديدة فوق الحقول الأصلية بالمواقع الدقيقة،
  * بخط GE SS Two Medium للعربية وHelvetica للأرقام.
@@ -2493,7 +2492,7 @@ var qrcode = function() {
 
   document.getElementById("generate").onclick = async () => {
     setStatus("", "");
-    document.getElementById("dlwrap").innerHTML = "";
+    AZI.result.clear(document.getElementById("dlwrap"));
     try {
       const tplBytes = base64ToBytes(ASSETS.template);
       const arFontBytes = base64ToBytes(ASSETS.geSsTwoMedium);
@@ -2535,14 +2534,7 @@ var qrcode = function() {
 
       const outBytes = await pdfDoc.save();
       const blob = new Blob([outBytes], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = "تذكرة_معدلة.pdf"; a.className = "dl";
-      a.textContent = "⬇️ تحميل الملف الناتج";
-      document.getElementById("dlwrap").appendChild(a);
-
-      // فتح تلقائي بتبويب جديد للمعاينة
-      window.open(url, "_blank");
+      AZI.result.show(document.getElementById("dlwrap"), blob, "تذكرة_معدلة.pdf");
       setStatus("تم الإنشاء بنجاح", "ok");
     } catch (err) {
       console.error(err);

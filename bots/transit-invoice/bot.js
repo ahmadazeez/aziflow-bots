@@ -63,7 +63,7 @@ function validate(d) {
 }
 const fileName = (d, ext) => "فاتورة_ترانزيت_" + d.docNo + "_" + d.date + "." + ext;
 
-// يغلّف أي زر تصدير: تحقق، تعطيل الزر، تنزيل، رسالة
+// يغلّف أي زر تصدير: تحقق، تعطيل الزر، تنزيل، رسالة، وصندوق المعاينة والمشاركة
 function exportButton(btn, label, kind, build) {
   btn.addEventListener("click", async () => {
     msg.clear();
@@ -72,6 +72,7 @@ function exportButton(btn, label, kind, build) {
     try {
       const { blob, ext } = await build(d);
       AZI.downloadBlob(blob, fileName(d, ext));
+      AZI.result.show($("result"), blob, fileName(d, ext));
       msg.success("تم تنزيل " + kind);
     } catch (e) {
       console.error(e); msg.error("خطأ في إنشاء " + kind + ": " + e.message);
@@ -153,5 +154,6 @@ $("resetBtn").addEventListener("click", () => {
   $("docNo").value = ""; $("date").value = AZI.today(); $("amount").value = "";
   drivers = [{ carNo: "", name: "" }]; renderDrivers();
   $("calcBox").classList.add("hidden");
+  AZI.result.clear($("result"));
   msg.clear();
 });

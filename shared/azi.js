@@ -86,6 +86,98 @@ window.AZI = (function () {
     },
   };
 
+  // ---------- الملف الناتج: معاينة + مشاركة واتساب + تحميل ----------
+  const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+  const PDFJS_FONTS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/standard_fonts/"; // خط Helvetica للأرقام (cdnjs ما فيه هالملفات)
+  let pdfjsP;
+  const loadScript = src => new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = src; s.onload = res; s.onerror = () => rej(new Error("تعذّر تحميل عارض PDF"));
+    document.head.appendChild(s);
+  });
+  // الـ worker بينحمّل كسكربت عادي (pdfjsWorker) فبيشتغل بنفس الصفحة —
+  // الـ Worker المنفصل من CDN ما بيشتغل على file:// وبيعلق أحياناً
+  function loadPdfJs() {
+    if (!pdfjsP) pdfjsP = loadScript(PDFJS + "pdf.min.js")
+      .then(() => loadScript(PDFJS + "pdf.worker.min.js"))
+      .then(() => { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js"; return window.pdfjsLib; })
+      .catch(e => { pdfjsP = null; throw e; });
+    return pdfjsP;
+  }
+
+  // يعرض صفحات الـ PDF كصور (يشتغل على الموبايل كمان)، وإذا ما زبط بيعرضه بإطار المتصفح
+  function preview(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const ov = document.createElement("div");
+    ov.className = "previewOverlay";
+    ov.innerHTML =
+      '<div class="previewBar"><span class="t"></span>' +
+      '<a class="previewOpen" target="_blank" rel="noopener">فتح بتبويب ↗</a>' +
+      '<button class="previewClose" type="button" aria-label="إغلاق">✕</button></div>' +
+      '<div class="previewBody"><div class="previewLoading">⏳ جاري تجهيز المعاينة...</div></div>';
+    ov.querySelector(".t").textContent = name;
+    ov.querySelector(".previewOpen").href = url;
+    const body = ov.querySelector(".previewBody");
+    const close = () => { ov.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", onKey); URL.revokeObjectURL(url); };
+    const onKey = e => { if (e.key === "Escape") close(); };
+    ov.querySelector(".previewClose").addEventListener("click", close);
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    document.body.appendChild(ov);
+
+    (async () => {
+      try {
+        const lib = await loadPdfJs();
+        const doc = await lib.getDocument({ data: new Uint8Array(await blob.arrayBuffer()), disableFontFace: true, standardFontDataUrl: PDFJS_FONTS }).promise;
+        body.innerHTML = "";
+        const cssW = Math.min(body.clientWidth - 32, 820);
+        for (let i = 1; i <= doc.numPages; i++) {
+          const page = await doc.getPage(i);
+          const base = page.getViewport({ scale: 1 });
+          const vp = page.getViewport({ scale: (cssW / base.width) * (window.devicePixelRatio || 1) });
+          const canvas = document.createElement("canvas");
+          canvas.width = vp.width; canvas.height = vp.height;
+          body.appendChild(canvas);
+          await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+        }
+      } catch (e) {
+        console.error(e);
+        if (ov.isConnected) body.innerHTML = '<iframe title="معاينة" src="' + url + '"></iframe>';
+      }
+    })();
+  }
+
+  async function shareWhatsApp(blob, name, hintEl) {
+    const file = new File([blob], name, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file], title: name }); return; }
+      catch (e) { if (e.name === "AbortError") return; }
+    }
+    // المتصفح ما بيدعم مشاركة الملفات (غالباً كمبيوتر): نزّل الملف وافتح واتساب، والمستخدم بيرفقه
+    downloadBlob(blob, name);
+    window.open("https://wa.me/?text=" + encodeURIComponent(name), "_blank");
+    hintEl.textContent = "نزّلنا الملف وفتحنا واتساب — ارفق الملف بالمحادثة 📎";
+    hintEl.classList.remove("hidden");
+  }
+
+  const result = {
+    // يعرض صندوق الملف الناتج داخل el
+    show(el, blob, name) {
+      const isPdf = blob.type === "application/pdf";
+      el.innerHTML =
+        '<div class="resultBox"><div class="resultName"></div><div class="resultBtns">' +
+        (isPdf ? '<button class="previewBtn" type="button">👁️ معاينة</button>' : "") +
+        '<button class="waBtn" type="button">مشاركة واتساب</button>' +
+        '<button class="dlBtn" type="button">⬇️ تحميل</button>' +
+        '</div><div class="resultHint hidden"></div></div>';
+      el.querySelector(".resultName").textContent = "📎 " + name;
+      if (isPdf) el.querySelector(".previewBtn").addEventListener("click", () => preview(blob, name));
+      el.querySelector(".waBtn").addEventListener("click", () => shareWhatsApp(blob, name, el.querySelector(".resultHint")));
+      el.querySelector(".dlBtn").addEventListener("click", () => downloadBlob(blob, name));
+    },
+    clear(el) { el.innerHTML = ""; },
+  };
+
   // ---------- زر الكريدت + الألعاب النارية ----------
   const credit = {
     mount(el) {
@@ -144,5 +236,5 @@ window.AZI = (function () {
     },
   };
 
-  return { CURRENCY, today, fmtDate, excelSerial, xmlEsc, htmlEsc, money, b64ToU8, asset, downloadBlob, messages, xlsx, pdf, credit };
+  return { CURRENCY, today, fmtDate, excelSerial, xmlEsc, htmlEsc, money, b64ToU8, asset, downloadBlob, messages, xlsx, pdf, result, credit };
 })();
