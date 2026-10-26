@@ -4,13 +4,11 @@
 
 ## التشغيل
 
-**الرابط:** https://ahmadazeez.github.io/aziflow-bots/ (افتحه بـ **Chrome أو Edge** على الكمبيوتر)
+**الرابط:** https://ahmadazeez.github.io/aziflow-bots/ (بيشتغل على الكمبيوتر والموبايل)
 
 أي push على `main` بيتحدّث عالرابط تلقائياً خلال دقيقة تقريباً.
 
 وبدون إنترنت: افتح `index.html` من المجلد بدبل كليك، ما بدها سيرفر.
-
-> المجلد الرئيسي اللي بتختاره للحفظ بينحفظ ومشترك بين كل البوتات. كل ملف بيتحفظ بمجلد فرعي باسم تاريخه.
 
 ## الهيكل
 
@@ -18,7 +16,7 @@
 index.html                    ← الصفحة الرئيسية (قائمة البوتات)
 shared/
   azi.css                     ← الثيم المشترك (ألوان، حقول، أزرار، شاشة الكريدت)
-  azi.js                      ← أدوات مشتركة: مجلد الحفظ، Excel، PDF، رسائل، تواريخ
+  azi.js                      ← أدوات مشتركة: تنزيل، Excel، PDF، رسائل، تواريخ
   brand/header.jpg(.js)       ← ترويسة AZIflow للفواتير
 bots/
   registry.js                 ← قائمة البوتات اللي بتظهر بالرئيسية
@@ -48,9 +46,7 @@ tools/
 
 | الأداة | شو بتعمل |
 |---|---|
-| `AZI.folder.mount(el)` | صندوق اختيار مجلد الحفظ |
-| `AZI.folder.ready()` | تتأكد من إذن المجلد (استدعِها أول الكبسة) |
-| `AZI.folder.save(blob, name, sub)` | تحفظ بالمجلد/`sub`، أو تنزّل الملف إذا ما في مجلد |
+| `AZI.downloadBlob(blob, name)` | تنزّل الملف مباشرة |
 | `AZI.xlsx.fill(b64, sheet => ...)` | تعبّي قالب Excel (`setStr` / `setNum` / `clear`) |
 | `AZI.pdf.fromHTML(html)` | ترسم HTML إلى PDF بحجم A4 |
 | `AZI.messages(errEl, okEl)` | رسائل الخطأ والنجاح |

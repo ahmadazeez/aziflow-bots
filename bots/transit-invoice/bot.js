@@ -10,7 +10,6 @@ const $ = id => document.getElementById(id);
 const msg = AZI.messages($("errorBox"), $("successBox"));
 let drivers = [{ carNo: "", name: "" }];
 
-AZI.folder.mount($("folder"));
 AZI.credit.mount($("credit"));
 $("date").value = AZI.today();
 
@@ -64,18 +63,16 @@ function validate(d) {
 }
 const fileName = (d, ext) => "فاتورة_ترانزيت_" + d.docNo + "_" + d.date + "." + ext;
 
-// يغلّف أي زر تصدير: تحقق، تعطيل الزر، حفظ، رسالة
-function exportButton(btn, label, kind, build, opts = {}) {
+// يغلّف أي زر تصدير: تحقق، تعطيل الزر، تنزيل، رسالة
+function exportButton(btn, label, kind, build) {
   btn.addEventListener("click", async () => {
     msg.clear();
     const d = getData(); if (!validate(d)) return;
-    const hasFolder = await AZI.folder.ready();
-    if (opts.requireFolder && AZI.folder.supported && !hasFolder) { msg.error("الرجاء اختيار مجلد الحفظ أولاً (زر اختيار المجلد)"); return; }
     btn.disabled = true; btn.textContent = "⏳ جاري...";
     try {
       const { blob, ext } = await build(d);
-      const where = await AZI.folder.save(blob, fileName(d, ext), d.date);
-      msg.success(where === "folder" ? "تم حفظ " + kind + " في مجلد " + d.date : "تم تنزيل " + kind);
+      AZI.downloadBlob(blob, fileName(d, ext));
+      msg.success("تم تنزيل " + kind);
     } catch (e) {
       console.error(e); msg.error("خطأ في إنشاء " + kind + ": " + e.message);
     } finally {
@@ -149,7 +146,7 @@ function buildInvoiceHTML(d) {
   "</div>";
 }
 
-exportButton($("pdfBtn"), "📄 حفظ PDF", "PDF", async d => ({ blob: await AZI.pdf.fromHTML(buildInvoiceHTML(d)), ext: "pdf" }), { requireFolder: true });
+exportButton($("pdfBtn"), "📄 تحميل PDF", "PDF", async d => ({ blob: await AZI.pdf.fromHTML(buildInvoiceHTML(d)), ext: "pdf" }));
 
 // ---------- تفريغ ----------
 $("resetBtn").addEventListener("click", () => {

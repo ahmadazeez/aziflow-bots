@@ -80,89 +80,6 @@ window.AZI = (function () {
     },
   };
 
-  // ---------- مجلد الحفظ (مشترك بين كل البوتات ويُحفظ بين الجلسات) ----------
-  const folder = (function () {
-    const supported = "showDirectoryPicker" in window;
-    const DB = "azi-bots", STORE = "kv", KEY = "rootDir";
-    let handle = null, infoEl = null, btnEl = null;
-
-    function idb(mode, op) {
-      return new Promise((res, rej) => {
-        const r = indexedDB.open(DB, 1);
-        r.onupgradeneeded = () => r.result.createObjectStore(STORE);
-        r.onerror = () => rej(r.error);
-        r.onsuccess = () => {
-          const tx = r.result.transaction(STORE, mode);
-          const q = op(tx.objectStore(STORE));
-          tx.oncomplete = () => res(q && q.result);
-          tx.onerror = () => rej(tx.error);
-        };
-      });
-    }
-    const load = () => idb("readonly", s => s.get(KEY)).catch(() => null);
-    const store = h => idb("readwrite", s => s.put(h, KEY)).catch(() => { });
-
-    function render() {
-      if (!infoEl) return;
-      if (!supported) {
-        infoEl.textContent = "⚠️ متصفحك لا يدعم اختيار المجلد. استخدم Chrome أو Edge على الكمبيوتر. سيتم تنزيل الملفات في مجلد التنزيلات بدلاً من ذلك.";
-        btnEl.style.display = "none";
-        return;
-      }
-      if (handle) {
-        infoEl.innerHTML = "✅ المجلد المختار: <b></b><br>سيُنشأ مجلد فرعي باسم تاريخ كل ملف داخله.";
-        infoEl.querySelector("b").textContent = handle.name;
-        btnEl.textContent = "تغيير المجلد";
-      } else {
-        infoEl.textContent = "📁 لم يتم اختيار مجلد الحفظ بعد. اختر مجلداً رئيسياً وسيُنشئ البوت مجلداً لكل تاريخ تلقائياً.";
-        btnEl.textContent = "اختيار المجلد";
-      }
-    }
-
-    async function pick() {
-      try {
-        handle = await window.showDirectoryPicker({ mode: "readwrite" });
-        await store(handle);
-        render();
-      } catch (e) { }
-    }
-
-    return {
-      supported,
-      // يرسم صندوق المجلد داخل العنصر المعطى
-      async mount(el) {
-        el.innerHTML = '<div class="folderBox"><div class="folderInfo"></div><button class="folderBtn" type="button"></button></div>';
-        infoEl = el.querySelector(".folderInfo"); btnEl = el.querySelector(".folderBtn");
-        btnEl.addEventListener("click", pick);
-        render();
-        if (supported) { handle = (await load()) || null; render(); }
-      },
-      // استدعِها أول شي داخل الكبسة (قبل أي انتظار طويل): بترجّع true إذا المجلد جاهز للكتابة
-      async ready() {
-        if (!handle) return false;
-        try {
-          const opts = { mode: "readwrite" };
-          if ((await handle.queryPermission(opts)) === "granted") return true;
-          return (await handle.requestPermission(opts)) === "granted";
-        } catch (e) { return false; }
-      },
-      // يحفظ داخل <المجلد>/<sub>/ إذا متاح، وإلا ينزّل الملف. يرجّع "folder" أو "download"
-      async save(blob, filename, sub) {
-        if (handle && (await this.ready())) {
-          let dir = handle;
-          if (sub) dir = await handle.getDirectoryHandle(sub, { create: true });
-          const fh = await dir.getFileHandle(filename, { create: true });
-          const w = await fh.createWritable();
-          await w.write(blob);
-          await w.close();
-          return "folder";
-        }
-        downloadBlob(blob, filename);
-        return "download";
-      },
-    };
-  })();
-
   // ---------- زر الكريدت + الألعاب النارية ----------
   const credit = {
     mount(el) {
@@ -221,5 +138,5 @@ window.AZI = (function () {
     },
   };
 
-  return { CURRENCY, today, fmtDate, excelSerial, xmlEsc, htmlEsc, money, b64ToU8, asset, downloadBlob, messages, xlsx, pdf, folder, credit };
+  return { CURRENCY, today, fmtDate, excelSerial, xmlEsc, htmlEsc, money, b64ToU8, asset, downloadBlob, messages, xlsx, pdf, credit };
 })();
