@@ -2598,7 +2598,10 @@ var qrcode = function() {
   // رمز QR: Model 2، تصحيح أخطاء M، مربعات حادة بالأبيض والأسود (رسم متجهي)
   function drawQR(page, text, box) {
     const qr = qrcode(0, "M");
-    qr.addData(text);
+    // أصغر نسخة ممكنة: أرقام فقط → Numeric، أحرف كبيرة وأرقام → Alphanumeric (رقم الموعد = Version 1، 21×21)
+    const mode = /^[0-9]+$/.test(text) ? "Numeric"
+      : /^[0-9A-Z $%*+\-./:]+$/.test(text) ? "Alphanumeric" : "Byte";
+    qr.addData(text, mode);
     qr.make();
     const n = qr.getModuleCount();
     if (n > 45) throw new Error("النص طويل بزيادة، رمز QR ما بيتسع بحجم 21 ملم");
