@@ -5,6 +5,12 @@
 window.AZI = (function () {
   const CURRENCY = "ر.س";
 
+  // تطبيق (PWA): sw.js بجذر الموقع، مكانه محسوب من مكان هذا الملف
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http") && document.currentScript) {
+    const sw = new URL("../sw.js", document.currentScript.src);
+    navigator.serviceWorker.register(sw, { scope: new URL("./", sw).pathname }).catch(() => { });
+  }
+
   // ---------- أدوات عامة ----------
   const today = () => {
     const d = new Date();
