@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZIflow Bots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/azi.css">
+<style>
+  .wrapper { max-width:860px; }
+  .banner { border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:16px; background:#fff; }
+  .banner img { width:100%; display:block; }
+  .hubTitle { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:22px 4px 14px; }
+  .hubTitle h1 { font-size:24px; font-weight:800; margin:0; }
+  .hubTitle p { color:rgba(255,255,255,0.5); font-size:13px; margin:0; }
+  .bots { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
+  .bot { display:flex; flex-direction:column; gap:10px; padding:20px; border-radius:16px; text-decoration:none; color:#fff;
+         background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:transform .15s, border-color .15s, background .15s; }
+  a.bot:hover { transform:translateY(-3px); border-color:rgba(52,211,153,0.45); background:rgba(52,211,153,0.07); }
+  .bot .icon { font-size:34px; line-height:1; }
+  .bot h2 { font-size:18px; font-weight:700; margin:0; }
+  .bot p { color:rgba(255,255,255,0.55); font-size:13px; line-height:1.7; margin:0; flex:1; }
+  .tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.7); }
+  .tag.PDF { background:rgba(239,68,68,0.15); color:#fca5a5; }
+  .tag.Excel { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .bot.soon { opacity:.55; border-style:dashed; cursor:default; }
+  .bot.soon .tag.soonTag { background:rgba(251,191,36,0.15); color:#fde68a; }
+  .footer { text-align:center; color:rgba(255,255,255,0.3); font-size:12px; margin-top:28px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="banner"><img src="shared/brand/header.jpg" alt="AZIflow — Malak Masha'a Customs Clearance Establishment"></div>
+
+  <div class="hubTitle">
+    <h1>🤖 بوتات AZIflow</h1>
+    <p>اختر البوت، عبّي البيانات، وطلّع الملف جاهز</p>
+  </div>
+
+  <div class="bots" id="bots"></div>
+
+  <div id="credit"></div>
+  <div class="footer">AZIflow Bots · Malak Masha'a Customs Clearance Establishment</div>
+</div>
+
+<script src="shared/azi.js"></script>
+<script src="bots/registry.js"></script>
+<script>
+  const grid = document.getElementById("bots");
+  const esc = AZI.htmlEsc;
+  AZI_BOTS.forEach(b => {
+    const el = document.createElement(b.soon ? "div" : "a");
+    el.className = "bot" + (b.soon ? " soon" : "");
+    if (!b.soon) el.href = "bots/" + encodeURIComponent(b.id) + "/index.html";
+    el.innerHTML =
+      '<div class="icon">' + esc(b.icon || "🤖") + "</div>" +
+      "<h2>" + esc(b.title) + "</h2>" +
+      "<p>" + esc(b.desc || "") + "</p>" +
+      '<div class="tags">' +
+        (b.tags || []).map(t => '<span class="tag ' + esc(t) + '">' + esc(t) + "</span>").join("") +
+        (b.soon ? '<span class="tag soonTag">قريباً</span>' : "") +
+      "</div>";
+    grid.appendChild(el);
+  });
+  AZI.credit.mount(document.getElementById("credit"));
+</script>
+</body>
+</html>

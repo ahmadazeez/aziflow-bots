@@ -1,0 +1,8 @@
+# Generated base64 assets (tools/embed.js): no text diffs
+*.xlsx.js -diff linguist-generated
+*.jpg.js -diff linguist-generated
+*.png.js -diff linguist-generated
+
+*.xlsx binary
+*.jpg binary
+*.png binary

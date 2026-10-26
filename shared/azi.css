@@ -1,0 +1,101 @@
+/* ===== AZIflow Bots — الثيم المشترك لكل البوتات ===== */
+* { box-sizing:border-box; }
+body { margin:0; min-height:100vh; background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%); background-attachment:fixed; font-family:'Rubik','Segoe UI',Tahoma,Arial,sans-serif; direction:rtl; padding:20px 16px 40px; color:#fff; }
+.wrapper { max-width:700px; margin:0 auto; }
+.hidden { display:none !important; }
+
+/* رجوع للرئيسية */
+.backLink { display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.55); text-decoration:none; font-size:13px; font-weight:600; margin-bottom:12px; padding:6px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); }
+.backLink:hover { color:#fff; border-color:rgba(255,255,255,0.25); }
+
+/* الهيدر والكروت */
+.header { text-align:center; padding:28px 20px 24px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:16px; margin-bottom:16px; }
+.header .icon { font-size:44px; margin-bottom:8px; }
+.header h1 { font-size:26px; font-weight:800; margin:0 0 6px; }
+.header p { color:rgba(255,255,255,0.5); font-size:14px; margin:0 0 12px; }
+.badge { display:inline-block; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.25); border-radius:20px; padding:4px 14px; color:rgba(255,255,255,0.6); font-size:12px; font-weight:600; }
+.card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px 24px 20px; margin-bottom:16px; }
+.section { display:flex; align-items:center; gap:8px; margin:20px 0 12px; }
+.section span.lbl { color:rgba(255,255,255,0.8); font-weight:700; font-size:14px; }
+
+/* الحقول */
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.field { margin-bottom:16px; }
+label.flbl { display:block; color:rgba(255,255,255,0.6); font-size:12px; font-weight:600; margin-bottom:6px; }
+.hint { color:rgba(255,255,255,0.3); font-size:11px; margin-top:4px; display:block; }
+input { width:100%; padding:10px 12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:14px; outline:none; font-family:inherit; direction:rtl; }
+input:focus { border-color:rgba(52,211,153,0.5); }
+input[type="date"] { color-scheme:dark; }
+
+/* مجلد الحفظ */
+.folderBox { background:rgba(96,165,250,0.08); border:1px solid rgba(96,165,250,0.25); border-radius:10px; padding:14px 16px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.folderInfo { font-size:13px; color:rgba(255,255,255,0.7); flex:1; min-width:180px; line-height:1.6; }
+.folderInfo b { color:#93c5fd; }
+.folderBtn { background:rgba(96,165,250,0.15); border:1px solid rgba(96,165,250,0.4); border-radius:8px; color:#93c5fd; cursor:pointer; padding:8px 16px; font-size:13px; font-weight:600; white-space:nowrap; font-family:inherit; }
+
+/* الأزرار */
+button { font-family:inherit; }
+.addBtn { background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3); border-radius:8px; color:#34d399; cursor:pointer; padding:6px 14px; font-size:13px; font-weight:600; }
+.removeBtn { background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3); border-radius:7px; color:#f87171; cursor:pointer; padding:8px 11px; font-size:13px; flex-shrink:0; }
+.removeBtn:disabled { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); color:rgba(255,255,255,0.2); cursor:not-allowed; }
+.btnRow { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+.pdfBtn, .xlsBtn { flex:1; min-width:160px; padding:13px; border:none; border-radius:10px; color:#fff; font-size:15px; font-weight:700; cursor:pointer; }
+.pdfBtn { background:linear-gradient(135deg,#ef4444 0%,#dc2626 100%); box-shadow:0 4px 16px rgba(239,68,68,0.3); }
+.xlsBtn { background:linear-gradient(135deg,#10b981 0%,#059669 100%); box-shadow:0 4px 16px rgba(16,185,129,0.3); }
+.pdfBtn:disabled, .xlsBtn:disabled { background:rgba(255,255,255,0.08); box-shadow:none; cursor:not-allowed; }
+.resetBtn { padding:13px 18px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:10px; color:rgba(255,255,255,0.55); font-size:14px; font-weight:600; cursor:pointer; }
+
+/* رسائل */
+.errorBox { margin-top:14px; padding:11px 14px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; color:#fca5a5; font-size:14px; }
+.successBox { margin-top:14px; padding:11px 14px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:8px; color:#6ee7b7; font-size:14px; font-weight:600; text-align:center; }
+
+/* منطقة الرسم المخفية للـ PDF */
+.renderArea { position:fixed; left:-9999px; top:0; }
+
+@media (max-width:520px) {
+  .grid2 { grid-template-columns:1fr; gap:0; }
+  .card { padding:18px 16px 16px; }
+}
+
+/* ===== شاشة الكريدت والألعاب النارية ===== */
+.creditWrap { text-align:center; margin-top:26px; }
+.creditTrigger {
+  background:linear-gradient(135deg,#f59e0b,#ef4444,#8b5cf6); background-size:200% 200%;
+  animation:gradShift 3s ease infinite; border:none; border-radius:12px; color:#fff;
+  cursor:pointer; padding:14px 28px; font-size:16px; font-weight:800; letter-spacing:0.5px;
+  box-shadow:0 6px 24px rgba(239,68,68,0.4);
+}
+@keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+.overlay {
+  position:fixed; inset:0; background:radial-gradient(circle at 50% 40%, #1a103a 0%, #07010f 100%);
+  display:flex; align-items:center; justify-content:center; flex-direction:column;
+  z-index:9999; overflow:hidden;
+}
+.overlay canvas { position:absolute; inset:0; width:100%; height:100%; }
+.creditContent { position:relative; z-index:2; text-align:center; padding:24px; max-width:760px; }
+.creditText {
+  color:#fde68a; font-size:18px; line-height:2; font-weight:600;
+  text-shadow:0 0 12px rgba(253,224,107,0.6); margin-bottom:30px;
+  animation:fadeUp 1.2s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.nameLine { display:flex; align-items:center; justify-content:center; gap:18px; margin-top:10px; }
+.legendName {
+  font-size:46px; font-weight:900; letter-spacing:1px;
+  background:linear-gradient(90deg,#fbbf24,#f472b6,#a78bfa,#60a5fa,#fbbf24);
+  background-size:300% 100%; -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  animation:nameGlow 4s linear infinite, namePop 1s ease both;
+  text-shadow:0 0 30px rgba(251,191,36,0.5);
+}
+@keyframes nameGlow { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
+@keyframes namePop { 0%{transform:scale(0.3) rotate(-8deg);opacity:0} 60%{transform:scale(1.15) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
+.heart { font-size:40px; animation:beat 1s ease-in-out infinite; filter:drop-shadow(0 0 10px rgba(244,63,94,0.8)); }
+.heart.h2 { animation-delay:0.3s; }
+@keyframes beat { 0%,100%{transform:scale(1)} 25%{transform:scale(1.35)} 50%{transform:scale(0.95)} }
+.closeCredit {
+  position:absolute; top:18px; left:18px; z-index:3; background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:50%; width:42px; height:42px;
+  font-size:20px; cursor:pointer; line-height:1;
+}
+@media (max-width:520px) { .legendName { font-size:32px; } .creditText { font-size:15px; } }

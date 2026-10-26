@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوت فاتورة ترانزيت - AZIflow</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/azi.css">
+<style>
+  /* خاص بهذا البوت */
+  .calcBox { background:rgba(52,211,153,0.06); border:1px solid rgba(52,211,153,0.2); border-radius:10px; padding:14px 16px; margin-bottom:4px; }
+  .calcBox .note { color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 8px; }
+  .calcRow { display:flex; justify-content:space-between; padding:4px 0; }
+  .calcRow .l { color:rgba(255,255,255,0.6); font-size:13px; }
+  .calcRow .v { font-family:monospace; color:rgba(255,255,255,0.9); font-size:13px; }
+  .calcRow.bold .v { color:#34d399; font-weight:700; font-size:15px; }
+  .driverRow { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+  .driverNum { width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .driverRow input { flex:1; min-width:0; }
+
+  /* شكل الفاتورة (يُصوَّر إلى PDF) */
+  .inv { width:760px; background:#fff; color:#000; font-family:'Rubik','Segoe UI',Tahoma,Arial,sans-serif; direction:rtl; padding:0 0 20px; }
+  .inv-hdr img { width:100%; display:block; }
+  .inv-contact { display:flex; justify-content:space-between; font-size:11px; font-weight:700; padding:4px 14px 0; }
+  .inv-body { padding:0 14px; }
+  .inv-titlebar { display:flex; align-items:center; justify-content:center; gap:8px; font-size:15px; font-weight:700; margin:10px 0 12px; flex-wrap:wrap; }
+  .inv-titlebar .v { border-bottom:1px solid #555; padding:0 14px 2px; min-width:70px; text-align:center; font-weight:600; }
+  table.t { width:100%; border-collapse:collapse; table-layout:fixed; }
+  .t td { border:1px solid #1f7a33; padding:6px 6px; font-size:12.5px; vertical-align:middle; }
+  .lblc { background:#e8f5e9; font-weight:700; text-align:center; }
+  .ctr { text-align:center; } .rgt { text-align:right; }
+  .en { font-size:9.5px; color:#555; font-weight:400; }
+  .amt { font-family:monospace; text-align:center; } .gap { height:8px; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <a class="backLink" href="../../index.html">→ كل البوتات</a>
+
+  <div class="header">
+    <div class="icon">🧾</div>
+    <h1>بوت فاتورة ترانزيت</h1>
+    <p>أملأ البيانات وحمّل الفاتورة PDF أو Excel</p>
+    <div class="badge"><span style="color:#34d399">●</span> AZIflow Transit</div>
+  </div>
+
+  <div class="card">
+    <div id="folder"></div>
+
+    <div class="section"><span>📋</span><span class="lbl">بيانات الفاتورة</span></div>
+    <div class="grid2">
+      <div class="field"><label class="flbl" for="docNo">بيان رقم *</label><input type="text" id="docNo" placeholder="562273"></div>
+      <div class="field"><label class="flbl" for="date">التاريخ</label><input type="date" id="date"><span class="hint">تلقائي (يمكن تغييره)</span></div>
+    </div>
+
+    <div class="section"><span>💰</span><span class="lbl">المبلغ</span></div>
+    <div class="field"><label class="flbl" for="amount">مبلغ أتعاب التخليص (ريال سعودي) *</label><input type="number" id="amount" placeholder="0.00" min="0" step="0.01" style="max-width:300px"></div>
+    <div id="calcBox" class="calcBox hidden">
+      <p class="note">سيُعبّأ هذا المبلغ في الخانات الثلاث:</p>
+      <div class="calcRow"><span class="l">اتعاب التخليص</span><span class="v" id="c1"></span></div>
+      <div class="calcRow"><span class="l">إجمالي مبلغ الفاتورة</span><span class="v" id="c2"></span></div>
+      <div class="calcRow bold"><span class="l">إجمالي المبلغ شامل الضريبة</span><span class="v" id="c3"></span></div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px">
+      <div class="section" style="margin:0"><span>🚛</span><span class="lbl">السائقون والمركبات</span></div>
+      <button class="addBtn" id="addDriverBtn" type="button">+ إضافة سائق</button>
+    </div>
+    <div id="driversList"></div>
+
+    <div id="errorBox" class="errorBox hidden"></div>
+    <div id="successBox" class="successBox hidden"></div>
+
+    <div class="btnRow">
+      <button class="pdfBtn" id="pdfBtn" type="button">📄 حفظ PDF</button>
+      <button class="xlsBtn" id="xlsBtn" type="button">📊 تحميل Excel</button>
+      <button class="resetBtn" id="resetBtn" type="button">🔄 تفريغ</button>
+    </div>
+
+    <div id="credit"></div>
+  </div>
+</div>
+
+<script src="../../shared/azi.js"></script>
+<script src="../../shared/brand/header.jpg.js"></script>
+<script src="template.xlsx.js"></script>
+<script src="bot.js"></script>
+</body>
+</html>

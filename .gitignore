@@ -1,0 +1,10 @@
+# Windows / macOS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Office lock files
+~$*
+
+# Claude Code local settings
+.claude/settings.local.json
