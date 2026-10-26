@@ -12,4 +12,10 @@ window.AZI_BOTS = [
     icon: "🧾",
     tags: ["PDF", "Excel"],
   },
+  {
+    id: "bayan",
+    title: "تعديل تذكرة تأكيد الموعد",
+    icon: "🎫",
+    tags: ["PDF"],
+  },
 ];
