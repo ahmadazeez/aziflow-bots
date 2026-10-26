@@ -8,13 +8,13 @@
 window.AZI_BOTS = [
   {
     id: "transit-invoice",
-    title: "فاتورة ترانزيت",
+    title: "فاتورة",
     icon: "🧾",
     tags: ["PDF", "Excel"],
   },
   {
     id: "bayan",
-    title: "تعديل تذكرة تأكيد الموعد",
+    title: "تعديل الموعد",
     icon: "🎫",
     tags: ["PDF"],
   },

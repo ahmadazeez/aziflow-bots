@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AZIflow">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>بوت تعديل تذكرة تأكيد الموعد - AZIflow</title>
+<title>بوت تعديل الموعد - AZIflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -19,9 +19,6 @@
 <style>
   /* خاص بهذا البوت */
   a.dl { display:inline-block; margin-top:14px; background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; padding:12px 20px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 4px 16px rgba(16,185,129,0.3); }
-  .fontBox { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
-  .fontBox .hint { margin-top:2px; }
-  .fontBadge { font-size:11px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); padding:3px 10px; border-radius:20px; color:rgba(255,255,255,0.6); }
 </style>
 </head>
 <body>
@@ -29,7 +26,7 @@
   <a class="backLink" href="../../index.html">→ كل البوتات</a>
   <div class="header">
     <div class="icon">🎫</div>
-    <h1>بوت تعديل تذكرة تأكيد الموعد</h1>
+    <h1>بوت تعديل الموعد</h1>
     <p>عدّل الحقول يلي بدك ياها واضغط "إنشاء الملف PDF"</p>
     <div class="badge"><span style="color:#34d399">●</span> AZIflow · PDF</div>
   </div>
@@ -38,7 +35,7 @@
     <div class="section"><span>📋</span><span class="lbl">بيانات الموعد</span></div>
     <div class="grid2">
       <div class="field"><label class="flbl" for="appointment_no">رقم الموعد</label><input type="text" id="appointment_no"></div>
-      <div class="field"><label class="flbl" for="date_time">تاريخ ووقت الموعد</label><input type="text" id="date_time"></div>
+      <div class="field"><label class="flbl" for="date_time">تاريخ ووقت الموعد</label><input type="text" id="date_time"><span class="hint">تلقائي (يمكن تغييره)</span></div>
       <div class="field"><label class="flbl" for="port">المنفذ</label><input type="text" id="port"></div>
       <div class="field"><label class="flbl" for="purpose">الغرض</label><input type="text" id="purpose"></div>
       <div class="field"><label class="flbl" for="declaration_no">رقم البيان الجمركي</label><input type="text" id="declaration_no"></div>
@@ -50,14 +47,6 @@
       <div class="field"><label class="flbl" for="country">دولة المركبة</label><input type="text" id="country"></div>
     </div>
 
-    <div class="section"><span>🖼️</span><span class="lbl">الصورة</span></div>
-    <div class="field">
-      <label class="flbl" for="photofile">صورة (90×90 نقطة، بنفس مكان الصورة القديمة)</label>
-      <input type="file" id="photofile" accept="image/png,image/jpeg">
-      <span class="hint">إذا ما رفعت صورة، بنرسم رمز QR لرقم الموعد بنفس المواصفات (21×21 ملم + منطقة هادئة 4 ملم) بنفس المكان.</span>
-    </div>
-
-
     <div id="errorBox" class="errorBox hidden"></div>
     <div id="successBox" class="successBox hidden"></div>
     <div class="btnRow">
@@ -65,20 +54,8 @@
       <button class="resetBtn" id="reset" type="button">🔄 إرجاع القيم الأصلية</button>
     </div>
     <div id="dlwrap"></div>
-    <span class="hint" style="margin-top:12px">ملاحظة: إذا ما رفعت صورة، الرمز بيتولّد من رقم الموعد.</span>
+    <span class="hint" style="margin-top:12px">ملاحظة: رمز QR بيتولّد تلقائياً من رقم الموعد.</span>
     <div id="credit"></div>
-  </div>
-
-  <div class="card">
-    <div class="section"><span>🔤</span><span class="lbl">خط الأرقام (ChromeSans Regular)</span></div>
-    <div class="fontBox">
-      <span class="hint">إذا ما رفعت ملف الخط، رح تُستخدم Helvetica مؤقتًا للأرقام.</span>
-      <span class="fontBadge" id="numfontbadge">الحالي: Helvetica (افتراضي)</span>
-    </div>
-    <div class="field" style="margin-top:12px">
-      <input type="file" id="numfontfile" accept=".ttf,.otf">
-      <span class="hint">ارفع <b>chromesans-regular.ttf/otf</b> ليُضمَّن في الأرقام والحقول الإنجليزية.</span>
-    </div>
   </div>
 </div>
 
@@ -2437,7 +2414,7 @@ var qrcode = function() {
 <script src="../../shared/azi.js"></script>
 <script>/* app.js — منطق بوت تعديل التذكرة
  * يحمّل القالب المضمّن، يرسم القيم الجديدة فوق الحقول الأصلية بالمواقع الدقيقة،
- * بخط GE SS Two Medium للعربية وخط الأرقام المختار (ChromeSans أو Helvetica).
+ * بخط GE SS Two Medium للعربية وHelvetica للأرقام.
  */
 (function () {
   const { PDFDocument, rgb } = PDFLib;
@@ -2447,7 +2424,6 @@ var qrcode = function() {
   // القيم الأصلية (الافتراضية)
   const ORIGINAL = {
     appointment_no: "TAS20260707182644831",
-    date_time: "2026-07-08 08:00",
     port: "جمرك الربع الخالي",
     purpose: "عبور - دخول",
     declaration_no: "54616",
@@ -2494,23 +2470,20 @@ var qrcode = function() {
   };
 
   const KEYS = Object.keys(FIELDS);
-  let numFontBytes = null; // ChromeSans إن رُفع
 
   // تعبئة الحقول بالقيم الأصلية
   function fillInputs(values) {
     KEYS.forEach((k) => { document.getElementById(k).value = values[k] || ""; });
   }
-  fillInputs(ORIGINAL);
+  // تاريخ ووقت الموعد تلقائي = الآن (بنفس الصيغة YYYY-MM-DD HH:MM)، ويمكن تعديله
+  function nowStamp() {
+    const d = new Date();
+    return AZI.today() + " " + String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+  }
+  const withNow = () => Object.assign({}, ORIGINAL, { date_time: nowStamp() });
+  fillInputs(withNow());
 
-  document.getElementById("reset").onclick = () => fillInputs(ORIGINAL);
-
-  // استقبال خط الأرقام
-  document.getElementById("numfontfile").onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    numFontBytes = new Uint8Array(await file.arrayBuffer());
-    document.getElementById("numfontbadge").textContent = "الحالي: " + file.name;
-  };
+  document.getElementById("reset").onclick = () => fillInputs(withNow());
 
   function setStatus(msg, cls) {
     if (cls === "err") msgs.error(msg);
@@ -2529,12 +2502,7 @@ var qrcode = function() {
       pdfDoc.registerFontkit(fontkit);
 
       const arFont = await pdfDoc.embedFont(arFontBytes, { subset: false });
-      let numFont;
-      if (numFontBytes) {
-        numFont = await pdfDoc.embedFont(numFontBytes, { subset: false });
-      } else {
-        numFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-      }
+      const numFont = await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
 
       const page = pdfDoc.getPages()[0];
 
@@ -2560,23 +2528,10 @@ var qrcode = function() {
         page.drawText(drawText, { x, y: cfg.y, size: cfg.size, font, color: rgb(0, 0, 0) });
       }
 
-      // الصورة المرفوعة: بنفس مكان الصورة القديمة (90×90 من النقطة 250,710)
-      const photo = document.getElementById("photofile").files[0];
-      if (photo) {
-        const photoBytes = new Uint8Array(await photo.arrayBuffer());
-        let img;
-        if (photo.type === "image/png") img = await pdfDoc.embedPng(photoBytes);
-        else if (photo.type === "image/jpeg") img = await pdfDoc.embedJpg(photoBytes);
-        else throw new Error("الصورة لازم تكون PNG أو JPG");
-        const box = 90;
-        const scale = Math.min(box / img.width, box / img.height);
-        const pw = img.width * scale, ph = img.height * scale;
-        page.drawImage(img, { x: 250 + (box - pw) / 2, y: 710 + (box - ph) / 2, width: pw, height: ph });
-      } else {
-        const qrText = (document.getElementById("appointment_no").value || "").trim();
-        if (!qrText) throw new Error("ما في رقم موعد لرسم رمز QR");
-        drawQR(page, qrText, { x: 250, y: 710, w: 90, h: 90 });
-      }
+      // رمز QR لرقم الموعد بنفس مكان الصورة القديمة (90×90 من النقطة 250,710)
+      const qrText = (document.getElementById("appointment_no").value || "").trim();
+      if (!qrText) throw new Error("ما في رقم موعد لرسم رمز QR");
+      drawQR(page, qrText, { x: 250, y: 710, w: 90, h: 90 });
 
       const outBytes = await pdfDoc.save();
       const blob = new Blob([outBytes], { type: "application/pdf" });
