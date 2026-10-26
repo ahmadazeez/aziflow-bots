@@ -15,14 +15,13 @@
   .hubTitle { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:22px 4px 14px; }
   .hubTitle h1 { font-size:24px; font-weight:800; margin:0; }
   .hubTitle p { color:rgba(255,255,255,0.5); font-size:13px; margin:0; }
-  .bots { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
-  .bot { display:flex; flex-direction:column; gap:10px; padding:20px; border-radius:16px; text-decoration:none; color:#fff;
+  .bots { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .bot { display:flex; align-items:center; gap:12px; padding:16px 18px; border-radius:16px; text-decoration:none; color:#fff;
          background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:transform .15s, border-color .15s, background .15s; }
   a.bot:hover { transform:translateY(-3px); border-color:rgba(52,211,153,0.45); background:rgba(52,211,153,0.07); }
-  .bot .icon { font-size:34px; line-height:1; }
-  .bot h2 { font-size:18px; font-weight:700; margin:0; }
-  .bot p { color:rgba(255,255,255,0.55); font-size:13px; line-height:1.7; margin:0; flex:1; }
-  .tags { display:flex; gap:6px; flex-wrap:wrap; }
+  .bot .icon { font-size:28px; line-height:1; flex-shrink:0; }
+  .bot h2 { font-size:17px; font-weight:700; margin:0; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tags { display:flex; gap:6px; flex-shrink:0; }
   .tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.7); }
   .tag.PDF { background:rgba(239,68,68,0.15); color:#fca5a5; }
   .tag.Excel { background:rgba(16,185,129,0.15); color:#6ee7b7; }
@@ -58,7 +57,6 @@
     el.innerHTML =
       '<div class="icon">' + esc(b.icon || "🤖") + "</div>" +
       "<h2>" + esc(b.title) + "</h2>" +
-      "<p>" + esc(b.desc || "") + "</p>" +
       '<div class="tags">' +
         (b.tags || []).map(t => '<span class="tag ' + esc(t) + '">' + esc(t) + "</span>").join("") +
         (b.soon ? '<span class="tag soonTag">قريباً</span>' : "") +

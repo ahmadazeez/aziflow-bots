@@ -9,7 +9,6 @@ window.AZI_BOTS = [
   {
     id: "transit-invoice",
     title: "فاتورة ترانزيت",
-    desc: "رقم البيان والمبلغ والسائقين، وبتطلع الفاتورة PDF و Excel جاهزة.",
     icon: "🧾",
     tags: ["PDF", "Excel"],
   },
