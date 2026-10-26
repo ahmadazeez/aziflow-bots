@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#0f2027">
+<meta name="theme-color" content="#005CB9">
 <link rel="icon" type="image/png" href="shared/brand/favicon.png">
 <link rel="apple-touch-icon" href="shared/brand/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AZIflow">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>AZIflow Bots</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,24 +18,24 @@
 <link rel="stylesheet" href="shared/azi.css">
 <style>
   .wrapper { max-width:860px; }
-  .banner { border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); margin-bottom:16px; background:#fff; }
+  .banner { border-radius:16px; overflow:hidden; border:1px solid var(--divider-color); margin-bottom:16px; background:#fff; }
   .banner img { width:100%; display:block; }
   .hubTitle { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:22px 4px 14px; }
-  .hubTitle h1 { font-size:24px; font-weight:800; margin:0; }
-  .hubTitle p { color:rgba(255,255,255,0.5); font-size:13px; margin:0; }
+  .hubTitle h1 { font-size:24px; font-weight:800; margin:0; color:var(--aziflow-dark-blue); }
+  .hubTitle p { color:var(--text-secondary); font-size:13px; margin:0; }
   .bots { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
-  .bot { display:flex; align-items:center; gap:12px; padding:16px 18px; border-radius:16px; text-decoration:none; color:#fff;
-         background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); transition:transform .15s, border-color .15s, background .15s; }
-  a.bot:hover { transform:translateY(-3px); border-color:rgba(52,211,153,0.45); background:rgba(52,211,153,0.07); }
+  .bot { display:flex; align-items:center; gap:12px; padding:16px 18px; border-radius:16px; text-decoration:none; color:var(--text-dark);
+         background:var(--page-background); border:1px solid var(--divider-color); box-shadow:0 2px 8px rgba(0,0,0,0.04); transition:transform .15s, border-color .15s, background .15s; }
+  a.bot:hover { transform:translateY(-3px); border-color:var(--aziflow-blue); background:var(--input-background); }
   .bot .icon { font-size:28px; line-height:1; flex-shrink:0; }
   .bot h2 { font-size:17px; font-weight:700; margin:0; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .tags { display:flex; gap:6px; flex-shrink:0; }
-  .tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.7); }
-  .tag.PDF { background:rgba(239,68,68,0.15); color:#fca5a5; }
-  .tag.Excel { background:rgba(16,185,129,0.15); color:#6ee7b7; }
+  .tag { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:var(--divider-color); color:var(--text-dark); }
+  .tag.PDF { background:var(--input-background); color:var(--aziflow-blue); }
+  .tag.Excel { background:var(--success-bg); color:var(--aziflow-teal); }
   .bot.soon { opacity:.55; border-style:dashed; cursor:default; }
-  .bot.soon .tag.soonTag { background:rgba(251,191,36,0.15); color:#fde68a; }
-  .footer { text-align:center; color:rgba(255,255,255,0.3); font-size:12px; margin-top:28px; }
+  .bot.soon .tag.soonTag { background:rgba(22,194,222,0.15); color:#0b7f93; }
+  .footer { text-align:center; color:var(--text-secondary); font-size:12px; margin-top:28px; }
 </style>
 </head>
 <body>

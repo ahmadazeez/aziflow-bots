@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="../../manifest.webmanifest">
-<meta name="theme-color" content="#0f2027">
+<meta name="theme-color" content="#005CB9">
 <link rel="icon" type="image/png" href="../../shared/brand/favicon.png">
 <link rel="apple-touch-icon" href="../../shared/brand/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AZIflow">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>بوت تعديل تذكرة تأكيد الموعد - AZIflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,10 +18,10 @@
 <link rel="stylesheet" href="../../shared/azi.css">
 <style>
   /* خاص بهذا البوت */
-  a.dl { display:inline-block; margin-top:14px; background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; padding:12px 20px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 4px 16px rgba(16,185,129,0.3); }
+  a.dl { display:inline-block; margin-top:14px; background:var(--aziflow-teal); color:#fff; padding:12px 20px; border-radius:10px; text-decoration:none; font-weight:700; box-shadow:0 4px 14px rgba(49,151,149,0.25); }
   .fontBox { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
   .fontBox .hint { margin-top:2px; }
-  .fontBadge { font-size:11px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); padding:3px 10px; border-radius:20px; color:rgba(255,255,255,0.6); }
+  .fontBadge { font-size:11px; background:var(--input-background); border:1px solid var(--input-border); padding:3px 10px; border-radius:20px; color:var(--text-dark); }
 </style>
 </head>
 <body>
@@ -31,7 +31,7 @@
     <div class="icon">🎫</div>
     <h1>بوت تعديل تذكرة تأكيد الموعد</h1>
     <p>عدّل الحقول يلي بدك ياها واضغط "إنشاء الملف PDF"</p>
-    <div class="badge"><span style="color:#34d399">●</span> AZIflow · PDF</div>
+    <div class="badge"><span class="dot">●</span> AZIflow · PDF</div>
   </div>
 
   <div class="card">

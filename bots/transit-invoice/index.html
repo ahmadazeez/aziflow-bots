@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="../../manifest.webmanifest">
-<meta name="theme-color" content="#0f2027">
+<meta name="theme-color" content="#005CB9">
 <link rel="icon" type="image/png" href="../../shared/brand/favicon.png">
 <link rel="apple-touch-icon" href="../../shared/brand/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AZIflow">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>بوت فاتورة ترانزيت - AZIflow</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -21,14 +21,14 @@
 <link rel="stylesheet" href="../../shared/azi.css">
 <style>
   /* خاص بهذا البوت */
-  .calcBox { background:rgba(52,211,153,0.06); border:1px solid rgba(52,211,153,0.2); border-radius:10px; padding:14px 16px; margin-bottom:4px; }
-  .calcBox .note { color:rgba(255,255,255,0.5); font-size:12px; margin:0 0 8px; }
+  .calcBox { background:var(--input-background); border:1px solid rgba(0,92,185,0.2); border-radius:10px; padding:14px 16px; margin-bottom:4px; }
+  .calcBox .note { color:var(--text-secondary); font-size:12px; margin:0 0 8px; }
   .calcRow { display:flex; justify-content:space-between; padding:4px 0; }
-  .calcRow .l { color:rgba(255,255,255,0.6); font-size:13px; }
-  .calcRow .v { font-family:monospace; color:rgba(255,255,255,0.9); font-size:13px; }
-  .calcRow.bold .v { color:#34d399; font-weight:700; font-size:15px; }
+  .calcRow .l { color:var(--text-dark); font-size:13px; }
+  .calcRow .v { font-family:monospace; color:var(--text-primary); font-size:13px; }
+  .calcRow.bold .v { color:var(--aziflow-blue); font-weight:700; font-size:15px; }
   .driverRow { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-  .driverNum { width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .driverNum { width:28px; height:28px; border-radius:50%; background:var(--aziflow-blue); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .driverRow input { flex:1; min-width:0; }
 
   /* شكل الفاتورة (يُصوَّر إلى PDF) */
@@ -54,7 +54,7 @@
     <div class="icon">🧾</div>
     <h1>بوت فاتورة ترانزيت</h1>
     <p>أملأ البيانات وحمّل الفاتورة PDF أو Excel</p>
-    <div class="badge"><span style="color:#34d399">●</span> AZIflow Transit</div>
+    <div class="badge"><span class="dot">●</span> AZIflow Transit</div>
   </div>
 
   <div class="card">
