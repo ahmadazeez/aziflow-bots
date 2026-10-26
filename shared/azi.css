@@ -1,86 +1,97 @@
 /* ===== AZIflow Bots — الثيم المشترك لكل البوتات ===== */
+/* طابع صحفي مسطّح: حبر أسود على أبيض ورمادي فاتح، الأصفر للنداءات المهمة، والأحمر للتصنيفات. */
 :root {
   /* Brand */
-  --aziflow-blue: #005CB9;
-  --aziflow-teal: #319795;
-  --aziflow-cyan: #16C2DE;
-  --aziflow-dark-blue: #081991;
+  --aziflow-ink: #1B1B1C;
+  --aziflow-yellow: #FFED13;
+  --aziflow-red: #CC0202;
 
   /* Backgrounds */
   --page-background: #FFFFFF;
-  --input-background: #E8F0FE;
+  --surface-light: #F8F8F9;
+  --surface-gray: #E8E9EA;
+  --input-background: #FFFFFF;
 
   /* Borders */
-  --input-border: #B8BABA;
-  --divider-color: #E5E5E5;
+  --input-border: #CFD0D1;
+  --divider-color: #E8E9EA;
 
   /* Text */
-  --text-primary: #000000;
-  --text-dark: #343A40;
-  --text-secondary: #585858;
+  --text-primary: #1B1B1C;
+  --text-dark: #484848;
+  --text-secondary: #5F5F5F;
+  --text-muted: #959697;
 
   /* رسائل الخطأ والنجاح */
-  --danger: #C62828;
   --danger-bg: #FDECEC;
-  --success-bg: #E6F4F3;
+  --success-bg: #FFFBD1;
 }
 * { box-sizing:border-box; }
-body { margin:0; min-height:100vh; background:var(--page-background); font-family:'Rubik','Segoe UI',Tahoma,Arial,sans-serif; direction:rtl; padding:calc(20px + env(safe-area-inset-top)) 16px 40px; color:var(--text-primary); }
-.wrapper { max-width:700px; margin:0 auto; }
+body { margin:0; min-height:100vh; background:var(--page-background); font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif; direction:rtl; padding:0 0 calc(40px + env(safe-area-inset-bottom)); color:var(--text-primary); }
+.wrapper { max-width:700px; margin:0 auto; padding:20px 16px 0; }
 .hidden { display:none !important; }
 
-/* رجوع للرئيسية */
-.backLink { display:inline-flex; align-items:center; gap:6px; color:var(--aziflow-blue); text-decoration:none; font-size:13px; font-weight:600; margin-bottom:12px; padding:6px 12px; border-radius:8px; border:1px solid var(--divider-color); background:var(--page-background); }
-.backLink:hover { color:var(--aziflow-dark-blue); border-color:var(--aziflow-blue); }
+/* الشريط الأسود العلوي */
+.topbar { background:var(--aziflow-ink); color:#fff; padding:calc(10px + env(safe-area-inset-top)) 16px 10px; }
+.topbar .in { max-width:700px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:28px; }
+.brand { color:#fff; text-decoration:none; font-weight:700; font-size:18px; letter-spacing:0.3px; }
+.brand small { color:var(--text-muted); font-weight:500; font-size:12px; margin-right:6px; }
+
+/* رجوع للرئيسية: زر أصفر بالشريط العلوي */
+.backLink { display:inline-flex; align-items:center; gap:6px; color:var(--aziflow-ink); background:var(--aziflow-yellow); text-decoration:none; font-size:13px; font-weight:700; padding:5px 14px; border-radius:8px; }
+.backLink:hover { background:#fff; }
 
 /* الهيدر والكروت */
-.header { text-align:center; padding:28px 20px 24px; background:linear-gradient(135deg,var(--aziflow-blue) 0%,var(--aziflow-dark-blue) 100%); color:#fff; border-radius:16px; margin-bottom:16px; }
-.header .icon { font-size:44px; margin-bottom:8px; }
-.header h1 { font-size:26px; font-weight:800; margin:0 0 6px; }
-.header p { color:rgba(255,255,255,0.85); font-size:14px; margin:0 0 12px; }
-.badge { display:inline-block; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.3); border-radius:20px; padding:4px 14px; color:#fff; font-size:12px; font-weight:600; }
-.badge .dot { color:var(--aziflow-cyan); }
-.card { background:var(--page-background); border:1px solid var(--divider-color); border-radius:16px; padding:24px 24px 20px; margin-bottom:16px; box-shadow:0 2px 10px rgba(0,0,0,0.04); }
-.section { display:flex; align-items:center; gap:8px; margin:20px 0 12px; }
-.section span.lbl { color:var(--aziflow-blue); font-weight:700; font-size:14px; }
+.header { position:relative; display:flex; flex-direction:column; align-items:flex-start; padding:24px 24px 22px 100px; background:var(--surface-gray); border-radius:8px; margin-bottom:16px; }
+.header .icon { position:absolute; left:24px; top:50%; transform:translateY(-50%); font-size:52px; line-height:1; }
+.header h1 { font-size:28px; font-weight:700; line-height:1.3; margin:0 0 6px; }
+.header p { color:var(--text-secondary); font-size:15px; margin:0; }
+.badge { order:-1; color:var(--aziflow-red); font-size:13px; font-weight:600; margin-bottom:8px; }
+.badge .dot { font-size:9px; vertical-align:middle; }
+.card { background:var(--page-background); border:1px solid var(--divider-color); border-radius:8px; padding:24px 24px 20px; margin-bottom:16px; }
+.section { display:flex; align-items:center; gap:8px; margin:22px 0 12px; }
+.section span.lbl { color:var(--text-primary); font-weight:700; font-size:16px; box-shadow:inset 0 -6px 0 var(--aziflow-yellow); }
 
 /* الحقول */
 .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .field { margin-bottom:16px; }
-label.flbl { display:block; color:var(--text-dark); font-size:12px; font-weight:600; margin-bottom:6px; }
-.hint { color:var(--text-secondary); font-size:11px; margin-top:4px; display:block; }
-input { width:100%; padding:10px 12px; background:var(--input-background); border:1px solid var(--input-border); border-radius:8px; color:var(--text-primary); font-size:14px; outline:none; font-family:inherit; direction:rtl; }
-input:focus { border-color:var(--aziflow-cyan); box-shadow:0 0 0 3px rgba(22,194,222,0.2); }
+label.flbl { display:block; color:var(--text-dark); font-size:13px; font-weight:600; margin-bottom:6px; }
+.hint { color:var(--text-muted); font-size:12px; margin-top:4px; display:block; }
+input { width:100%; padding:10px 12px; background:var(--input-background); border:1px solid var(--input-border); border-radius:6px; color:var(--text-primary); font-size:14px; outline:none; font-family:inherit; direction:rtl; }
+input:focus { border-color:var(--aziflow-ink); box-shadow:0 0 0 1px var(--aziflow-ink); }
+input::placeholder { color:var(--text-muted); }
 input[type="date"] { color-scheme:light; display:block; min-width:0; min-height:42px; -webkit-appearance:none; appearance:none; text-align:right; }
 input[type="date"]::-webkit-date-and-time-value { text-align:right; }
 input.narrow { max-width:300px; }
 
 /* الأزرار */
 button { font-family:inherit; }
-.addBtn { background:var(--page-background); border:1px solid var(--aziflow-teal); border-radius:8px; color:var(--aziflow-teal); cursor:pointer; padding:6px 14px; font-size:13px; font-weight:600; }
-.addBtn:hover { background:var(--success-bg); }
-.removeBtn { background:var(--danger-bg); border:1px solid rgba(198,40,40,0.3); border-radius:7px; color:var(--danger); cursor:pointer; padding:8px 11px; font-size:13px; flex-shrink:0; }
-.removeBtn:disabled { background:var(--page-background); border-color:var(--divider-color); color:var(--input-border); cursor:not-allowed; }
+.addBtn { background:var(--page-background); border:1px solid var(--aziflow-ink); border-radius:6px; color:var(--aziflow-ink); cursor:pointer; padding:6px 14px; font-size:13px; font-weight:600; }
+.addBtn:hover { background:var(--aziflow-yellow); }
+.removeBtn { background:var(--danger-bg); border:1px solid rgba(204,2,2,0.25); border-radius:6px; color:var(--aziflow-red); cursor:pointer; padding:8px 11px; font-size:13px; flex-shrink:0; }
+.removeBtn:disabled { background:var(--surface-light); border-color:var(--divider-color); color:var(--input-border); cursor:not-allowed; }
 .btnRow { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
-.pdfBtn, .xlsBtn { flex:1; min-width:160px; padding:13px; border:none; border-radius:10px; color:#fff; font-size:15px; font-weight:700; cursor:pointer; }
-.pdfBtn { background:var(--aziflow-blue); box-shadow:0 4px 14px rgba(0,92,185,0.25); }
-.pdfBtn:hover { background:var(--aziflow-dark-blue); }
-.xlsBtn { background:var(--aziflow-teal); box-shadow:0 4px 14px rgba(49,151,149,0.25); }
-.xlsBtn:hover { background:#287d7b; }
-.pdfBtn:disabled, .xlsBtn:disabled { background:var(--input-border); box-shadow:none; cursor:not-allowed; }
-.resetBtn { padding:13px 18px; background:var(--page-background); border:1px solid var(--input-border); border-radius:10px; color:var(--text-dark); font-size:14px; font-weight:600; cursor:pointer; }
-.resetBtn:hover { border-color:var(--text-secondary); }
+.pdfBtn, .xlsBtn { flex:1; min-width:160px; padding:13px; border:none; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; }
+.pdfBtn { background:var(--aziflow-ink); color:#fff; }
+.pdfBtn:hover { background:#000; }
+.xlsBtn { background:var(--aziflow-yellow); color:var(--aziflow-ink); }
+.xlsBtn:hover { background:#f5e200; }
+.pdfBtn:disabled, .xlsBtn:disabled { background:var(--surface-gray); color:var(--text-muted); cursor:not-allowed; }
+.resetBtn { padding:13px 18px; background:var(--surface-gray); border:none; border-radius:8px; color:var(--text-primary); font-size:14px; font-weight:600; cursor:pointer; }
+.resetBtn:hover { background:#dcdddf; }
 
 /* رسائل */
-.errorBox { margin-top:14px; padding:11px 14px; background:var(--danger-bg); border:1px solid rgba(198,40,40,0.3); border-radius:8px; color:var(--danger); font-size:14px; }
-.successBox { margin-top:14px; padding:11px 14px; background:var(--success-bg); border:1px solid var(--aziflow-teal); border-radius:8px; color:var(--aziflow-teal); font-size:14px; font-weight:600; text-align:center; }
+.errorBox { margin-top:14px; padding:11px 14px; background:var(--danger-bg); border-right:3px solid var(--aziflow-red); border-radius:6px; color:var(--aziflow-red); font-size:14px; }
+.successBox { margin-top:14px; padding:11px 14px; background:var(--success-bg); border-right:3px solid var(--aziflow-yellow); border-radius:6px; color:var(--text-primary); font-size:14px; font-weight:600; text-align:center; }
 
 /* منطقة الرسم المخفية للـ PDF */
 .renderArea { position:fixed; left:-9999px; top:0; }
 
 @media (max-width:520px) {
-  body { padding:calc(16px + env(safe-area-inset-top)) 12px calc(40px + env(safe-area-inset-bottom)); }
-  .header { padding:22px 16px 18px; }
+  .wrapper { padding:16px 12px 0; }
+  .topbar { padding-right:12px; padding-left:12px; }
+  .header { padding:20px 16px 18px 72px; }
+  .header .icon { left:16px; font-size:40px; }
   .header h1 { font-size:22px; }
   .grid2 { grid-template-columns:1fr; gap:0; }
   .card { padding:18px 16px 16px; }
@@ -95,11 +106,10 @@ button { font-family:inherit; }
 /* ===== شاشة الكريدت والألعاب النارية ===== */
 .creditWrap { text-align:center; margin-top:26px; }
 .creditTrigger {
-  background:linear-gradient(135deg,var(--aziflow-cyan),var(--aziflow-blue),var(--aziflow-dark-blue)); background-size:200% 200%;
-  animation:gradShift 3s ease infinite; border:none; border-radius:12px; color:#fff;
-  cursor:pointer; padding:14px 28px; font-size:16px; font-weight:800; letter-spacing:0.5px;
-  box-shadow:0 6px 24px rgba(0,92,185,0.35);
+  background:var(--aziflow-yellow); border:none; border-radius:8px; color:var(--aziflow-ink);
+  cursor:pointer; padding:13px 28px; font-size:16px; font-weight:700; letter-spacing:0.3px;
 }
+.creditTrigger:hover { background:var(--aziflow-ink); color:var(--aziflow-yellow); }
 @keyframes gradShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 .overlay {
   position:fixed; inset:0; background:radial-gradient(circle at 50% 40%, #1a103a 0%, #07010f 100%);

@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="manifest" href="../../manifest.webmanifest">
-<meta name="theme-color" content="#005CB9">
+<meta name="theme-color" content="#1B1B1C">
 <link rel="icon" type="image/png" href="../../shared/brand/favicon.png">
 <link rel="apple-touch-icon" href="../../shared/brand/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AZIflow">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>بوت فاتورة ترانزيت - AZIflow</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -18,17 +18,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../shared/azi.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../shared/azi.css?v=3">
 <style>
   /* خاص بهذا البوت */
-  .calcBox { background:var(--input-background); border:1px solid rgba(0,92,185,0.2); border-radius:10px; padding:14px 16px; margin-bottom:4px; }
+  .calcBox { background:var(--surface-light); border:1px solid var(--divider-color); border-radius:10px; padding:14px 16px; margin-bottom:4px; }
   .calcBox .note { color:var(--text-secondary); font-size:12px; margin:0 0 8px; }
   .calcRow { display:flex; justify-content:space-between; padding:4px 0; }
   .calcRow .l { color:var(--text-dark); font-size:13px; }
   .calcRow .v { font-family:monospace; color:var(--text-primary); font-size:13px; }
-  .calcRow.bold .v { color:var(--aziflow-blue); font-weight:700; font-size:15px; }
+  .calcRow.bold .v { color:var(--aziflow-ink); font-weight:700; font-size:15px; }
   .driverRow { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-  .driverNum { width:28px; height:28px; border-radius:50%; background:var(--aziflow-blue); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .driverNum { width:28px; height:28px; border-radius:50%; background:var(--aziflow-ink); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .driverRow input { flex:1; min-width:0; }
 
   /* شكل الفاتورة (يُصوَّر إلى PDF) */
@@ -47,8 +48,11 @@
 </style>
 </head>
 <body>
-<div class="wrapper">
+<div class="topbar"><div class="in">
+  <a class="brand" href="../../index.html">AZIflow<small>بوتات</small></a>
   <a class="backLink" href="../../index.html">→ كل البوتات</a>
+</div></div>
+<div class="wrapper">
 
   <div class="header">
     <div class="icon">🧾</div>
